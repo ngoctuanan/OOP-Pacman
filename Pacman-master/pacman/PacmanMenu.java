@@ -113,7 +113,7 @@ public class PacmanMenu extends JFrame implements ActionListener {
         }
     }
     private void movePacman() {   
-    	Icon pacmanIcon = new ImageIcon(getClass().getResource("Pacman-master/images/pacmancatchghost2.gif"));
+    	Icon pacmanIcon = new ImageIcon("Pacman-master/images/pacmancatchghost2.gif");
     	JLabel pacmanLabel = new JLabel(pacmanIcon);
       	pacmanLabel.setBounds(-150, -20, pacmanIcon.getIconWidth(), pacmanIcon.getIconHeight()); 
     	pacman.add(pacmanLabel) ; 

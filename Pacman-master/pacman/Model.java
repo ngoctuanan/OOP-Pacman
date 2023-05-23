@@ -76,12 +76,12 @@ public class Model extends JPanel implements ActionListener {
     
     
     private void loadImages() {
-    	down = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/down.gif").getImage();
-    	up = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/up.gif").getImage();
-    	left = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/left.gif").getImage();
-    	right = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/right.gif").getImage();
-    	ghost = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/ghost.gif").getImage();
-    	heart = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/heart.png").getImage();
+    	down = new ImageIcon("Pacman-master/images/down.gif").getImage();
+    	up = new ImageIcon("Pacman-master/images/up.gif").getImage();
+    	left = new ImageIcon("Pacman-master/images/left.gif").getImage();
+    	right = new ImageIcon("Pacman-master/images/right.gif").getImage();
+    	ghost = new ImageIcon("Pacman-master/images/ghost.gif").getImage();
+    	heart = new ImageIcon("Pacman-master/images/heart.png").getImage();
     }
        private void initVariables() {
 
@@ -452,9 +452,9 @@ public class Model extends JPanel implements ActionListener {
     private void gameOver() { 
     	JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
     	frame.dispose() ; 
-    	Icon return1 = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/return1.png") ; 
-    	Icon return2 = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/return2.png") ;
-    	Icon return3 = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/return3%20.png") ;
+    	Icon return1 = new ImageIcon("Pacman-master/images/return1.png") ; 
+    	Icon return2 = new ImageIcon("Pacman-master/images/return2.png") ;
+    	Icon return3 = new ImageIcon("Pacman-master/images/return3%20.png") ;
     	jp = new JFrame() ;
     	JPanel panel = new JPanel()  {
             private Image backgroundImage;
@@ -462,7 +462,7 @@ public class Model extends JPanel implements ActionListener {
             // Load the background image once
             {
                 try {
-                    backgroundImage = ImageIO.read(new File("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/backgroup.jpg"));
+                    backgroundImage = ImageIO.read(new File("Pacman-master/images/backgroup.jpg"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
