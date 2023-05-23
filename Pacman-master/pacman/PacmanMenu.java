@@ -75,6 +75,7 @@ public class PacmanMenu extends JFrame implements ActionListener {
         quit.addActionListener(this) ; 
     }
     public static void main(String[] abc) {
+        
         new PacmanMenu();
     }
 
