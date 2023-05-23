@@ -27,16 +27,16 @@ public class PacmanMenu extends JFrame implements ActionListener {
     private IconShapedButton playing, guild, quit;
     public PacmanMenu() {
     	pacman = new JFrame() ; 
-    	Icon thumnail = new ImageIcon(getClass().getResource("Pacman-master/images/thumnail2.png")) ;
-        Icon icon1 = new ImageIcon(getClass().getResource("Pacman-master/images/playingfix.png"));
-        Icon icon2 = new ImageIcon(getClass().getResource("Pacman-master/images/playingfixsecond.png"));
-        Icon icon3 = new ImageIcon(getClass().getResource("Pacman-master/images/playingfixthird.png"));
-        Icon option1 = new ImageIcon(getClass().getResource("Pacman-master/images/option.png"));
-        Icon option2 = new ImageIcon(getClass().getResource("Pacman-master/images/option2.png"));
-        Icon option3 = new ImageIcon(getClass().getResource("Pacman-master/images/option3.png"));
-        Icon quit1 = new ImageIcon(getClass().getResource("Pacman-master/images/quit1.png"));
-        Icon quit2 = new ImageIcon(getClass().getResource("Pacman-master/images/quit2.png"));
-        Icon quit3 = new ImageIcon(getClass().getResource("Pacman-master/images/quit3.png"));
+    	Icon thumnail = new ImageIcon("Pacman-master\\images\\thumnail2.png");
+        Icon icon1 = new ImageIcon("Pacman-master\\images\\playingfix.png");
+        Icon icon2 = new ImageIcon("Pacman-master\\images\\playingfixsecond.png");
+        Icon icon3 = new ImageIcon("Pacman-master\\images\\playingfixthird.png");
+        Icon option1 = new ImageIcon("Pacman-master\\images\\option.png");
+        Icon option2 = new ImageIcon("Pacman-master\\images\\option2.png");
+        Icon option3 = new ImageIcon("Pacman-master\\images\\option3.png");
+        Icon quit1 = new ImageIcon("Pacman-master\\images\\quit1.png");
+        Icon quit2 = new ImageIcon("Pacman-master\\images\\quit2.png");
+        Icon quit3 = new ImageIcon("Pacman-master\\images\\quit3.png");
         quit = new IconShapedButton(quit1,quit2,quit3,700,450) ; 
         guild =new IconShapedButton(option1, option2, option3, 440, 450);
         playing = new IconShapedButton(icon1, icon2,icon3, 180, 450);
@@ -46,7 +46,7 @@ public class PacmanMenu extends JFrame implements ActionListener {
             private Image backgroundImage;
             {
                 try {
-                    backgroundImage = ImageIO.read(getClass().getResource("Pacman-master/images/backgroup.jpg"));
+                    backgroundImage = ImageIO.read(new File("Pacman-master/images/backgroup.jpg"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -75,8 +75,7 @@ public class PacmanMenu extends JFrame implements ActionListener {
         quit.addActionListener(this) ; 
     }
     public static void main(String[] abc) {
-        
-        new PacmanMenu();
+        PacmanMenu m = new PacmanMenu();
     }
 
     @Override
@@ -133,8 +132,7 @@ public class PacmanMenu extends JFrame implements ActionListener {
     }
     private void playBackgroundMusic() {
         try {
-            URL url = getClass().getResource("Pacman-master//song//Careless-Whisper.wav");
-            File musicFile = new File(url.getPath());
+            File musicFile = new File("Pacman-master\\song\\Careless-Whisper.wav");
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicFile);
             clip = AudioSystem.getClip();
             clip.open(audioInput);
