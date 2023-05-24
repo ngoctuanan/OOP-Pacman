@@ -17,6 +17,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Model extends JPanel implements ActionListener {
+	private JButton button2 ; 
 	private IconShapedButton button1 ; 
 	private JFrame jp ; 
 	private Dimension d;
@@ -139,10 +140,10 @@ public class Model extends JPanel implements ActionListener {
 
         while (i < N_BLOCKS * N_BLOCKS && finished) {
 
-            if ((screenData[i]) != 0) {
+            if ((screenData[i] & 48) != 0) {
                 finished = false;
             }
-
+            
             i++;
         }
 
@@ -167,8 +168,9 @@ public class Model extends JPanel implements ActionListener {
     	lives--;
 
         if (lives == 0) {
+        	inGame = false;
         	gameOver() ; 
-            inGame = false;
+            
             
         }
 
@@ -450,8 +452,8 @@ public class Model extends JPanel implements ActionListener {
 }
 
     private void gameOver() { 
-    	JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-    	frame.dispose() ; 
+    	jp = (JFrame) SwingUtilities.getWindowAncestor(this);
+    	jp.setVisible(false) ;  
     	Icon return1 = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/return1.png") ; 
     	Icon return2 = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/return2.png") ;
     	Icon return3 = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/return3%20.png") ;
@@ -475,7 +477,9 @@ public class Model extends JPanel implements ActionListener {
             }
         };
         panel.setLayout(null);
+        button2.setBounds(100,100,50,50) ; 
         button1 = new IconShapedButton(return1, return2, return3, 200,200) ;
+        panel.add(button2) ;
         panel.add(button1) ; 
         jp.setContentPane(panel);
         jp.setTitle("Pacman");
@@ -484,22 +488,25 @@ public class Model extends JPanel implements ActionListener {
         jp.setVisible(true);
         jp.setDefaultCloseOperation(3);
         button1.addActionListener(this) ; 
+        button2.addActionListener(this) ; 
         
     }
     public void restartGame() {       
         Model newModel = new Model();
-        JFrame newFrame = new JFrame();
-        newFrame.setSize(380, 420);
-        newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        newFrame.setLocationRelativeTo(null);
-        newFrame.add(newModel);
-        newFrame.setVisible(true);
+        jp = new JFrame();
+        jp.setSize(380, 420);
+        jp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jp.setLocationRelativeTo(null);
+        jp.add(newModel);
+        jp.setVisible(true);
     }
     @Override
     public void actionPerformed(ActionEvent e) {
     	if(e.getSource() == button1) {
-    		jp.dispose() ; 
-    		restartGame() ; 
+       		restartGame() ; 
+    	}
+    	if(e.getSource()==button2) {
+    		System.exit(0) ; 
     	}
         repaint();
     }
