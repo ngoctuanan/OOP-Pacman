@@ -46,7 +46,8 @@ public class PacmanMenu extends JFrame implements ActionListener {
             {
                 try {
                     backgroundImage = ImageIO.read(new File("Pacman-master/images/backgroup.jpg"));
-                } catch (IOException e) {
+                } catch
+                 (IOException e) {
                     e.printStackTrace();
                 }
             }
