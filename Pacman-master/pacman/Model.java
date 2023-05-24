@@ -8,9 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -19,13 +16,12 @@ import javax.imageio.ImageIO;
 public class Model extends JPanel implements ActionListener {
 	private IconShapedButton button1 ; 
 	private JFrame jp ; 
-	private Dimension d;
     private final Font smallFont = new Font("Arial", Font.BOLD, 14);
     private boolean inGame = false;
     private boolean dying = false;
 
     private final int BLOCK_SIZE = 24;
-    private final int N_BLOCKS = 15;
+    private final int N_BLOCKS = 30;
     private final int SCREEN_SIZE = N_BLOCKS * BLOCK_SIZE;
     private final int MAX_GHOSTS = 12;
     private final int PACMAN_SPEED = 6;
@@ -42,22 +38,37 @@ public class Model extends JPanel implements ActionListener {
     private int req_dx, req_dy;
 
     private final short levelData[] = {
-    	19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
-        17, 16, 16, 16, 16, 24, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-        25, 24, 24, 24, 28, 0, 17, 16, 16, 16, 16, 16, 16, 16, 20,
-        0,  0,  0,  0,  0,  0, 17, 16, 16, 16, 16, 16, 16, 16, 20,
-        19, 18, 18, 18, 18, 18, 16, 16, 16, 16, 24, 24, 24, 24, 20,
-        17, 16, 16, 16, 16, 16, 16, 16, 16, 20, 0,  0,  0,   0, 21,
-        17, 16, 16, 16, 16, 16, 16, 16, 16, 20, 0,  0,  0,   0, 21,
-        17, 16, 16, 16, 24, 16, 16, 16, 16, 20, 0,  0,  0,   0, 21,
-        17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 18, 18, 18, 18, 20,
-        17, 24, 24, 28, 0, 25, 24, 24, 16, 16, 16, 16, 16, 16, 20,
-        21, 0,  0,  0,  0,  0,  0,   0, 17, 16, 16, 16, 16, 16, 20,
-        17, 18, 18, 22, 0, 19, 18, 18, 16, 16, 16, 16, 16, 16, 20,
-        17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-        17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-        25, 24, 24, 24, 26, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28
-    };
+        19, 26, 26, 26, 26, 18, 26, 26, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 26, 26, 26, 18, 22, 
+        21,  0,  0,  0,  0, 21,  0,  0, 25, 24, 24, 24, 16, 16, 16, 24, 24, 24, 24, 24, 24, 24, 24, 24, 20,  0,  0,  0, 17, 20,
+        17, 18, 18, 22,  0, 21,  0,  0,  0,  0,  0,  0, 17, 16, 20,  0,  0,  0,  0,  0,  0,  0,  0,  0, 17, 18, 22,  0, 17, 20,
+        17, 24, 24, 28,  0, 21,  0, 19, 18, 18, 18, 18, 16, 16, 16, 18, 18, 18, 18, 18, 18, 18, 22,  0, 17, 16, 20,  0, 17, 20, 
+        21,  0,  0,  0,  0, 21,  0, 17, 16, 16, 24, 24, 24, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,  0, 17, 16, 20,  0, 17, 20,               
+        21,  0, 19, 26, 26, 28,  0, 17, 16, 20,  0,  0,  0, 17, 16, 16, 16, 24, 24, 24, 24, 24, 28,  0, 17, 16, 20,  0, 17, 20,
+        21,  0, 21,  0,  0,  0,  0, 17, 16, 20,  0,  0,  0, 17, 16, 16, 20,  0,  0,  0,  0,  0,  0,  0, 17, 16, 16, 18, 16, 20,
+        21,  0, 21,  0, 27, 26, 26, 24, 16, 20,  0,  0,  0, 17, 16, 16, 20,  0, 19, 18, 18, 18, 18, 18, 16, 16, 16, 16, 16, 20,
+        21,  0, 21,  0,  0,  0,  0,  0, 17, 20,  0,  0,  0, 17, 24, 24, 20,  0, 17, 24, 24, 24, 16, 24, 16, 16, 24, 16, 16, 20,
+        21,  0, 25, 26, 26, 26, 30,  0, 17, 16, 18, 18, 18, 20,  0,  0, 21,  0, 21,  0,  0,  0, 21,  0, 17, 20,  0, 17, 16, 20,
+        21,  0,  0,  0,  0,  0,  0,  0, 17, 16, 16, 16, 16, 20,  0,  0, 21,  0, 21,  0,  0,  0, 21,  0, 17, 20,  0, 17, 16, 20,
+        17, 18, 18, 18, 18, 18, 18, 18, 16, 16, 16, 16, 16, 20,  0,  0, 21,  0, 21,  0,  0,  0, 21,  0, 17, 20,  0, 17, 16, 20,
+        17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,  0,  0, 21,  0, 21,  0,  0,  0, 21,  0, 17, 20,  0, 17, 16, 20,
+        17, 16, 16, 16, 16, 24, 16, 16, 16, 16, 16, 16, 16, 20,  0,  0, 21,  0, 21,  0,  0,  0, 21,  0, 17, 20,  0, 17, 16, 20,
+        17, 16, 16, 16, 20,  0, 17, 16, 16, 16, 24, 24, 24, 24, 26, 18, 20,  0, 21,  0,  0,  0, 21,  0, 17, 20,  0, 17, 16, 20,
+        17, 16, 16, 16, 20,  0, 17, 16, 16, 28,  0,  0,  0,  0,  0, 17, 20,  0, 21,  0,  0,  0, 21,  0, 17, 20,  0, 17, 16, 20,
+        17, 16, 16, 16, 28,  0, 17, 16, 28,  0,  0,  0,  0,  0,  0, 17, 20,  0, 21,  0,  0,  0, 21,  0, 17, 16, 18, 16, 16, 20,
+        17, 16, 16, 28,  0,  0, 17, 28,  0,  0, 31,  0,  0,  0, 19, 16, 20,  0, 21,  0,  0,  0, 21,  0, 17, 16, 16, 16, 16, 20,
+        17, 16, 28,  0,  0, 19, 20,  0,  0,  0,  0,  0,  0, 19, 24, 24, 16, 18, 24, 26, 26, 26, 28,  0, 17, 16, 16, 16, 16, 20,
+        17, 28,  0,  0, 19, 16, 20,  0,  0,  0,  0,  0, 19, 20,  0,  0, 17, 20,  0,  0,  0,  0,  0,  0, 17, 16, 16, 16, 16, 20,
+        21,  0,  0, 19, 16, 16, 20,  0,  0,  0,  0,  0, 25, 20,  0,  0, 17, 16, 18, 18, 18, 18, 18, 18, 16, 16, 16, 24, 16, 20, 
+        21,  0, 19, 16, 16, 16, 20,  0,  0,  0,  0,  0,  0, 25, 18, 18, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,  0, 17, 20,
+        21,  0, 17, 16, 16, 16, 16, 22,  0,  0,  0,  0,  0,  0, 25, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,  0, 17, 20,
+        17, 26, 24, 24, 16, 16, 16, 16, 22,  0,  0,  0,  0,  0,  0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,  0, 17, 20,
+        21,  0,  0,  0, 17, 16, 16, 16, 16, 22,  0,  0,  0,  0,  0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 24, 24, 28,  0, 17, 20,
+        21,  0, 23,  0, 25, 24, 24, 24, 24, 16, 18, 18, 18, 18, 18, 16, 16, 16, 16, 16, 24, 24, 24, 20,  0,  0,  0,  0, 17, 20,  
+        21,  0, 21,  0,  0,  0,  0,  0,  0, 17, 16, 16, 16, 24, 24, 24, 24, 24, 24, 28,  0,  0,  0, 25, 26, 26, 18, 18, 16, 20,
+        21,  0, 25, 26, 26, 26, 26, 26, 26, 16, 16, 16, 20,  0,  0,  0,  0,  0,  0,  0,  0, 23,  0,  0,  0,  0, 17, 16, 16, 20, 
+        21,  0,  0,  0,  0,  0,  0,  0,  0, 17, 16, 16, 16, 18, 18, 18, 18, 18, 18, 18, 18, 16, 18, 18, 18, 18, 16, 16, 16, 20,                                 
+        25, 26, 26, 26, 26, 26, 26, 26, 26, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28
+       };
 
     private final int validSpeeds[] = {1, 2, 3, 4, 6, 8};
     private final int maxSpeed = 6;
@@ -76,17 +87,16 @@ public class Model extends JPanel implements ActionListener {
     
     
     private void loadImages() {
-    	down = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/down.gif").getImage();
-    	up = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/up.gif").getImage();
-    	left = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/left.gif").getImage();
-    	right = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/right.gif").getImage();
-    	ghost = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/ghost.gif").getImage();
-    	heart = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/heart.png").getImage();
+    	down = new ImageIcon("Pacman-master/images/down.gif").getImage();
+    	up = new ImageIcon("Pacman-master/images/up.gif").getImage();
+    	left = new ImageIcon("Pacman-master/images/left.gif").getImage();
+    	right = new ImageIcon("Pacman-master/images/right.gif").getImage();
+    	ghost = new ImageIcon("Pacman-master/images/ghost.gif").getImage();
+    	heart = new ImageIcon("Pacman-master/images/heart.png").getImage();
     }
        private void initVariables() {
 
         screenData = new short[N_BLOCKS * N_BLOCKS];
-        d = new Dimension(400, 400);
         ghost_x = new int[MAX_GHOSTS];
         ghost_dx = new int[MAX_GHOSTS];
         ghost_y = new int[MAX_GHOSTS];
@@ -118,7 +128,7 @@ public class Model extends JPanel implements ActionListener {
  
     	String start = "Press SPACE to start";
         g2d.setColor(Color.yellow);
-        g2d.drawString(start, (SCREEN_SIZE)/4, 150);
+        g2d.drawString(start, 300, 350);
     }
 
     private void drawScore(Graphics2D g) {
@@ -139,7 +149,7 @@ public class Model extends JPanel implements ActionListener {
 
         while (i < N_BLOCKS * N_BLOCKS && finished) {
 
-            if ((screenData[i]) != 0) {
+            if ((screenData[i]) != 48) {
                 finished = false;
             }
 
@@ -313,7 +323,7 @@ public class Model extends JPanel implements ActionListener {
                 g2d.setStroke(new BasicStroke(5));
                 
                 if ((levelData[i] == 0)) { 
-                	g2d.fillRect(x, y, BLOCK_SIZE, BLOCK_SIZE);
+                	g2d.fillRect(x, y, BLOCK_SIZE, BLOCK_SIZE );
                  }
 
                 if ((screenData[i] & 1) != 0) { 
@@ -400,7 +410,7 @@ public class Model extends JPanel implements ActionListener {
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setColor(Color.black);
-        g2d.fillRect(0, 0, d.width, d.height);
+        g2d.fillRect(0, 0, 2000, 2000);
 
         drawMaze(g2d);
         drawScore(g2d);
@@ -452,9 +462,9 @@ public class Model extends JPanel implements ActionListener {
     private void gameOver() { 
     	JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
     	frame.dispose() ; 
-    	Icon return1 = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/return1.png") ; 
-    	Icon return2 = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/return2.png") ;
-    	Icon return3 = new ImageIcon("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/return3%20.png") ;
+    	Icon return1 = new ImageIcon("Pacman-master/images/return1.png") ; 
+    	Icon return2 = new ImageIcon("Pacman-master/images/return2.png") ;
+    	Icon return3 = new ImageIcon("Pacman-master/images/return3%20.png") ;
     	jp = new JFrame() ;
     	JPanel panel = new JPanel()  {
             private Image backgroundImage;
@@ -462,7 +472,7 @@ public class Model extends JPanel implements ActionListener {
             // Load the background image once
             {
                 try {
-                    backgroundImage = ImageIO.read(new File("/C:/Users/khanh/eclipse-workspace/Pacman-master.zip_expanded/Pacman-master/images/backgroup.jpg"));
+                    backgroundImage = ImageIO.read(new File("Pacman-master/images/backgroup.jpg"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -489,7 +499,7 @@ public class Model extends JPanel implements ActionListener {
     public void restartGame() {       
         Model newModel = new Model();
         JFrame newFrame = new JFrame();
-        newFrame.setSize(380, 420);
+        newFrame.setSize(740 ,800);
         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         newFrame.setLocationRelativeTo(null);
         newFrame.add(newModel);

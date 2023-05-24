@@ -8,7 +8,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.swing.* ; 
 
@@ -17,7 +16,6 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class PacmanMenu extends JFrame implements ActionListener {
@@ -25,6 +23,7 @@ public class PacmanMenu extends JFrame implements ActionListener {
 	private Clip clip;
 	private JFrame pacman ; 
     private IconShapedButton playing, guild, quit;
+
     public PacmanMenu() {
     	pacman = new JFrame() ; 
     	Icon thumnail = new ImageIcon("Pacman-master/images/thumnail2.png");
@@ -47,7 +46,8 @@ public class PacmanMenu extends JFrame implements ActionListener {
             {
                 try {
                     backgroundImage = ImageIO.read(new File("Pacman-master/images/backgroup.jpg"));
-                } catch (IOException e) {
+                } catch
+                 (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -74,9 +74,6 @@ public class PacmanMenu extends JFrame implements ActionListener {
         guild.addActionListener(this);
         quit.addActionListener(this) ; 
     }
-    public static void main(String[] abc) {
-        PacmanMenu m = new PacmanMenu();
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -84,7 +81,7 @@ public class PacmanMenu extends JFrame implements ActionListener {
         	pacman.setVisible(false) ;
         	stopBackgroundMusic() ;
             pacman = new JFrame();
-            pacman.setSize(380, 420);
+            pacman.setSize(740 ,800);
             pacman.setDefaultCloseOperation(EXIT_ON_CLOSE);
             pacman.setLocationRelativeTo(null);
             pacman.setVisible(true);
@@ -113,7 +110,7 @@ public class PacmanMenu extends JFrame implements ActionListener {
         }
     }
     private void movePacman() {   
-    	Icon pacmanIcon = new ImageIcon(getClass().getResource("Pacman-master/images/pacmancatchghost2.gif"));
+    	Icon pacmanIcon = new ImageIcon("Pacman-master/images/pacmancatchghost2.gif");
     	JLabel pacmanLabel = new JLabel(pacmanIcon);
       	pacmanLabel.setBounds(-150, -20, pacmanIcon.getIconWidth(), pacmanIcon.getIconHeight()); 
     	pacman.add(pacmanLabel) ; 
