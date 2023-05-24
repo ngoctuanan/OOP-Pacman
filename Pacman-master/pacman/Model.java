@@ -149,7 +149,7 @@ public class Model extends JPanel implements ActionListener {
 
         while (i < N_BLOCKS * N_BLOCKS && finished) {
 
-            if ((screenData[i]) != 0) {
+            if ((screenData[i]) != 48) {
                 finished = false;
             }
 
@@ -323,7 +323,7 @@ public class Model extends JPanel implements ActionListener {
                 g2d.setStroke(new BasicStroke(5));
                 
                 if ((levelData[i] == 0)) { 
-                	g2d.fillRect(x, y, BLOCK_SIZE, BLOCK_SIZE);
+                	g2d.fillRect(x, y, BLOCK_SIZE, BLOCK_SIZE );
                  }
 
                 if ((screenData[i] & 1) != 0) { 
@@ -499,7 +499,7 @@ public class Model extends JPanel implements ActionListener {
     public void restartGame() {       
         Model newModel = new Model();
         JFrame newFrame = new JFrame();
-        newFrame.setSize(380, 420);
+        newFrame.setSize(740 ,800);
         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         newFrame.setLocationRelativeTo(null);
         newFrame.add(newModel);
