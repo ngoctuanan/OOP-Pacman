@@ -1,6 +1,7 @@
 package pacman ; 
 
 
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -87,12 +88,12 @@ public class Model extends JPanel implements ActionListener {
     
     
     private void loadImages() {
-    	down = new ImageIcon("Pacman-master/images/down.gif").getImage();
-    	up = new ImageIcon("Pacman-master/images/up.gif").getImage();
-    	left = new ImageIcon("Pacman-master/images/left.gif").getImage();
-    	right = new ImageIcon("Pacman-master/images/right.gif").getImage();
-    	ghost = new ImageIcon("Pacman-master/images/ghost.gif").getImage();
-    	heart = new ImageIcon("Pacman-master/images/heart.png").getImage();
+    	down = new ImageIcon("D:/OOP-Pacman/Pacman-master/images/down.gif").getImage();
+    	up = new ImageIcon("D:/OOP-Pacman/Pacman-master/images/up.gif").getImage();
+    	left = new ImageIcon("D:/OOP-Pacman/Pacman-master/images/left.gif").getImage();
+    	right = new ImageIcon("D:/OOP-Pacman/Pacman-master/images/right.gif").getImage();
+    	ghost = new ImageIcon("D:/OOP-Pacman/Pacman-master/images/ghost.gif").getImage();
+    	heart = new ImageIcon("D:/OOP-Pacman/Pacman-master/images/heart.png").getImage();
     }
        private void initVariables() {
 
@@ -177,9 +178,9 @@ public class Model extends JPanel implements ActionListener {
     	lives--;
 
         if (lives == 0) {
-        	gameOver() ; 
+        	
             inGame = false;
-            
+            new PacmanGameover();
         }
 
         continueLevel();
@@ -514,6 +515,4 @@ public class Model extends JPanel implements ActionListener {
         repaint();
     }
 	
-    }
-		
-	
+}    
